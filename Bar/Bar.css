@@ -1,0 +1,40 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #ecf0f1;
+}
+
+.container {
+    text-align: center;
+    width: 80%;
+    max-width: 500px;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* プログレスバーの外枠（グレーの部分） */
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 25px;
+    margin: 20px 0;
+    height: 30px;
+    overflow: hidden; /* 角丸からはみ出さないように */
+}
+
+/* 中身のバー（青い部分） */
+.progress-bar {
+    height: 100%;
+    width: 0%; /* 最初は0% */
+    background-color: #007AFF;
+    border-radius: 25px 0 0 25px;
+    /* transitionはJSで動的に設定するのでここは空でOKですが、
+       なめらかさのために一応入れておきます */
+    transition: width linear; 
+}
