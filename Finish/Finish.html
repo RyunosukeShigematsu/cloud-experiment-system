@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>実験完了</title>
+    <link rel="stylesheet" href="Finish.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>実験は終了です</h1>
+        <p>ご協力ありがとうございました。<br>以下の情報を控えてください。</p>
+
+        <div class="info-box">
+            <p class="label">パスコード</p>
+            <p class="passcode-text">C</p>
+        </div>
+
+        <div class="info-box">
+            <p class="label">あなたのID</p>
+            <div class="id-wrapper">
+                <span id="generatedId">Generating...</span>
+                
+                <button id="copyBtn" class="copy-btn">コピー</button>
+            </div>
+            <p class="note">※このIDをコピーして、実験元へ提出してください。</p>
+        </div>
+
+        <p class="thank-you">画面を閉じて終了してください。</p>
+    </div>
+
+    <script src="Finish.js"></script>
+</body>
+</html>

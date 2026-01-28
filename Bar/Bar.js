@@ -26,15 +26,14 @@ function startProgressBar(seconds) {
     const interval = setInterval(() => {
         remainingTime--;
         
-        // 残り時間が0になったら終了
+// 残り時間が0になったら終了
         if (remainingTime < 0) {
             clearInterval(interval);
             timeText.innerText = "完了！";
-            alert("10秒経過しました！");
-            // 次のページへ遷移するならここに書く
-            // window.location.href = '../NextPage/Next.html';
+            
+            // 【変更】TestフォルダのTest.htmlへ移動
+            window.location.href = '../Test/Test.html';
         } else {
-            // パーセント表示などをしたい場合は計算を変えてください
             timeText.innerText = `残り ${remainingTime} 秒`;
         }
     }, 1000); // 1秒ごとに実行

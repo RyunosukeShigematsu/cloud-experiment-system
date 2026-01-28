@@ -1,0 +1,103 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #ecf0f1;
+    color: #333;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+}
+
+h1 {
+    color: #007AFF;
+    margin-bottom: 20px;
+}
+
+/* 情報表示用の箱 */
+.info-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.label {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 10px 0;
+    font-weight: bold;
+}
+
+/* パスコードの文字 */
+.passcode-text {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+/* ID表示とボタンの横並びエリア */
+.id-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+#generatedId {
+    font-family: monospace; /* 等幅フォントで見やすく */
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    letter-spacing: 2px;
+}
+
+/* コピーボタン */
+.copy-btn {
+    background-color: #007AFF;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.copy-btn:hover {
+    background-color: #005bb5;
+}
+
+/* コピー完了時のスタイル（JSで付与） */
+.copy-btn.copied {
+    background-color: #28a745; /* 緑色 */
+    cursor: default;
+}
+
+.note {
+    font-size: 12px;
+    color: #888;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.thank-you {
+    margin-top: 30px;
+    font-weight: bold;
+    color: #555;
+}

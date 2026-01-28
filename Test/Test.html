@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記憶テスト</title>
+    <link rel="stylesheet" href="Test.css">
+</head>
+<body>
+    <div class="container">
+        <h2>なんと書かれていましたか？</h2>
+        
+        <div class="time-input-area">
+            <select class="digit-select" id="digit1">
+                <option value="" selected>?</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
+            <select class="digit-select" id="digit2">
+                <option value="" selected>?</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
+            <span class="colon">：</span>
+            <select class="digit-select" id="digit3">
+                <option value="" selected>?</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
+            <select class="digit-select" id="digit4">
+                <option value="" selected>?</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
+        </div>
+
+        <div class="button-area">
+            <button id="finishBtn" disabled>完了</button>
+        </div>
+    </div>
+
+    <div id="modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p class="modal-message">本当に完了ですか？</p>
+            <div class="modal-buttons">
+                <button id="cancelBtn" class="modal-btn cancel">回答に戻る</button>
+                <button id="confirmBtn" class="modal-btn confirm">完了する</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="Test.js"></script>
+</body>
+</html>

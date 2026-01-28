@@ -1,0 +1,151 @@
+/* 既存のスタイル */
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f7f6;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.time-input-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.digit-select {
+    font-size: 24px;
+    padding: 10px;
+    width: 60px;
+    text-align: center;
+    border: 2px solid #007AFF;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    margin: 0 5px;
+    appearance: none; 
+    -webkit-appearance: none;
+}
+
+.colon {
+    font-size: 32px;
+    margin: 0 5px;
+}
+
+#finishBtn {
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#finishBtn:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+#finishBtn:not(:disabled) {
+    background-color: #007AFF;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+/* --- ここから追加：ポップアップのスタイル --- */
+
+/* 画面全体を覆う黒い背景（オーバーレイ） */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明の黒 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+/* 非表示にするためのクラス */
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* ポップアップ本体 */
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    width: 80%;
+    max-width: 300px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    animation: popUp 0.3s ease-out; /* ふわっと出るアニメーション */
+}
+
+@keyframes popUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-message {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1; /* ボタンの幅を均等に */
+}
+
+/* 「回答に戻る」ボタン */
+.cancel {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* 「完了する」ボタン */
+.confirm {
+    background-color: #007AFF;
+    color: white;
+}
