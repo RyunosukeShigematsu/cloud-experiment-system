@@ -21,7 +21,14 @@ body {
 
 h2 {
     color: #333;
-    margin-bottom: 30px;
+    margin-bottom: 10px; /* 少し詰める */
+}
+
+/* 【追加】指示文のスタイル */
+.instruction-note {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 30px; /* ここで間隔を開ける */
 }
 
 .time-input-area {

@@ -60,3 +60,21 @@ nextBtn.addEventListener('click', () => {
     // ID生成処理は window.onload に移動したので、ここは画面遷移だけでOK
     window.location.href = '../Check/Check.html';
 });
+
+// ボタンクリック時の動作
+nextBtn.addEventListener('click', () => {
+    // 記録用ログ
+    const selectedDummy = document.querySelector('input[name="dummy"]:checked');
+    const dummyValue = selectedDummy ? selectedDummy.value : "未回答";
+    console.log("ダミー回答:", dummyValue);
+
+    // --- 【追加】ダミー回答を保存 ---
+    sessionStorage.setItem('home_dummy_answer', dummyValue);
+    
+    // 性別・年齢も忘れずに保存（既に保存している場合はOKですが、念のため明記）
+    sessionStorage.setItem('user_age', ageSelect.value);
+    sessionStorage.setItem('user_gender', genderSelect.value);
+    // ----------------------------
+
+    window.location.href = '../Check/Check.html';
+});

@@ -142,3 +142,86 @@ showBtn.addEventListener('click', () => {
         window.location.href = '../Bar/Bar.html';
     }, 1000);
 });
+
+
+// ボタンクリック時の動作
+showBtn.addEventListener('click', () => {
+    
+    // 1. 値の決定（ここまでは同じ）
+    let leftVal, rightVal;
+
+    if (currentInfoType === 'clock') {
+        leftVal = hourBag.next();
+        rightVal = minuteBag.next();
+        colonText.style.visibility = 'visible';
+    } else {
+        leftVal = numBagLeft.next();
+        rightVal = numBagRight.next();
+        colonText.style.visibility = 'hidden';
+    }
+
+    // --- 【重要変更】提示刺激を4つの数字に分解して保存 ---
+    // 例: leftVal=12 -> digit1=1, digit2=2
+    const digit1 = Math.floor(leftVal / 10);
+    const digit2 = leftVal % 10;
+    
+    // 例: rightVal=5 -> digit3=0, digit4=5 (0埋め考慮)
+    const digit3 = Math.floor(rightVal / 10);
+    const digit4 = rightVal % 10;
+
+    // sessionStrageに個別に保存
+    sessionStorage.setItem('shown_digit_1', digit1);
+    sessionStorage.setItem('shown_digit_2', digit2);
+    sessionStorage.setItem('shown_digit_3', digit3);
+    sessionStorage.setItem('shown_digit_4', digit4);
+
+
+    // --- 【重要変更】強調条件を文字列("normal", "left", "right")に変換して保存 ---
+    let emphasisString = "normal";
+    if (currentEmphasis === 1) emphasisString = "left";
+    if (currentEmphasis === 2) emphasisString = "right";
+    
+    sessionStorage.setItem('condition_emphasis', emphasisString);
+    // -----------------------------------------------------------------
+
+    // 画面表示用に0埋め文字列を作る
+    hourText.innerText = padZero(leftVal);
+    minuteText.innerText = padZero(rightVal);
+
+
+    // 2. サイズ計算ロジック（そのまま使用）
+    let leftSize = BASE_FONT_SIZE;
+    let rightSize = BASE_FONT_SIZE;
+
+    if (currentEmphasis === 1) { // 内部計算は数値(0,1,2)のままでOK
+        leftSize = BASE_FONT_SIZE * SCALE_FACTOR;
+        rightSize = BASE_FONT_SIZE;
+    } else if (currentEmphasis === 2) {
+        leftSize = BASE_FONT_SIZE;
+        rightSize = BASE_FONT_SIZE * SCALE_FACTOR;
+    }
+    
+    // ...（以下のサイズ適用・自動調整・画面遷移コードはそのまま）...
+    
+    let colonSize = Math.min(leftSize, rightSize);
+    hourText.style.fontSize = `${leftSize}px`;
+    minuteText.style.fontSize = `${rightSize}px`;
+    colonText.style.fontSize = `${colonSize}px`;
+
+    timeContainer.classList.remove('hidden');
+
+    const containerWidth = blackBox.clientWidth - 40; 
+    const contentWidth = timeContainer.offsetWidth;
+
+    if (contentWidth > containerWidth) {
+        const ratio = containerWidth / contentWidth;
+        hourText.style.fontSize = `${leftSize * ratio}px`;
+        minuteText.style.fontSize = `${rightSize * ratio}px`;
+        colonText.style.fontSize = `${colonSize * ratio}px`;
+    }
+
+    showBtn.disabled = true;
+    setTimeout(() => {
+        window.location.href = '../Bar/Bar.html';
+    }, 1000);
+});

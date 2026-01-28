@@ -1,6 +1,6 @@
 // ================================
 // 設定：待ち時間（秒）
-const DURATION_SECONDS = 10; 
+const DURATION_SECONDS = 30; 
 // ================================
 
 const progressBar = document.getElementById('progressBar');
