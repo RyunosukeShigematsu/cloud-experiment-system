@@ -36,7 +36,7 @@ window.onload = () => {
             // ログ（確認用）
             console.log(`Check回答保存: ${option.label}`);
 
-            window.location.href = '../Task/Task.html';
+            window.location.replace('../Task/Task.html');
         });
 
         optionsContainer.appendChild(btn);

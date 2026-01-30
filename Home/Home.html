@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>実験参加フォーム</title>
     <link rel="stylesheet" href="Home.css">
 </head>
+
 <body>
 
     <div class="container">
@@ -15,11 +17,17 @@
             <section class="area-box">
                 <h2>1. 実験について</h2>
                 <div class="description-text">
-                    <p>この実験は、スマートフォンにおけるWebインターフェースの操作性を調査するものです。</p>
-                    <p>所要時間は約3分です。途中での中断はできませんのでご注意ください。</p>
+                    <p>この実験は、スマートフォンの画面表示に関する調査です。</p>
+
+                    <p>所要時間は約1分です。途中での中断はできませんのでご注意ください。</p>
+
+                    <p class="warning-message">
+                        ※実験中は、ブラウザの「戻る」ボタンや「再読み込み（リロード）」を押さないでください。
+                    </p>
+
                     <p class="caution">※必ず最後まで回答を行ってください。</p>
                 </div>
-                
+
                 <div class="consent-area">
                     <label class="checkbox-label">
                         <input type="checkbox" id="consentCheck">
@@ -60,9 +68,9 @@
                 <div class="form-group">
                     <p class="question-text">
                         質問文を正しく読んでいるか確認するため、以下の選択肢の中から<br>
-                        「少しそう思う」を選んでください。
+                        少しそう思うを選んでください。
                     </p>
-                    
+
                     <div class="radio-list">
                         <label class="radio-item">
                             <input type="radio" name="dummy" value="1"> 全くそう思わない
@@ -88,4 +96,5 @@
 
     <script src="Home.js"></script>
 </body>
+
 </html>

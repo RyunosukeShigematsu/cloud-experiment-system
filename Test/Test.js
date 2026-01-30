@@ -146,5 +146,5 @@ confirmBtn.addEventListener('click', () => {
     sessionStorage.setItem('final_experiment_data', JSON.stringify(experimentData));
 
     // Finish画面へ
-    window.location.href = '../Finish/Finish.html';
+    window.location.replace('../Finish/Finish.html');
 });

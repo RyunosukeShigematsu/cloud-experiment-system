@@ -164,3 +164,13 @@ h2 {
     background-color: #007AFF;
     box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
 }
+
+.warning-message {
+    color: #d32f2f; /* 赤色 */
+    font-weight: bold;
+    background-color: #ffebee; /* 薄い赤の背景 */
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+    border: 1px solid #ffcdd2;
+}

@@ -24,6 +24,6 @@ function startProgressBar(seconds) {
     // （文字更新などの余計な処理はすべて削除しました）
     setTimeout(() => {
         // Test画面へ移動
-        window.location.href = '../Test/Test.html';
+        window.location.replace('../Test/Test.html');
     }, seconds * 1000); // 秒 -> ミリ秒に変換
 }

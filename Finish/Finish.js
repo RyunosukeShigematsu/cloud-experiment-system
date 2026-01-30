@@ -68,7 +68,7 @@ window.onload = () => {
 copyBtn.addEventListener('click', () => {
     const textToCopy = idElement.innerText;
     navigator.clipboard.writeText(textToCopy).then(() => {
-        copyBtn.innerText = 'コピー完了'; 
+        copyBtn.innerText = 'コピー'; 
         copyBtn.classList.add('copied');
     }).catch(err => {
         console.error('コピー失敗', err);

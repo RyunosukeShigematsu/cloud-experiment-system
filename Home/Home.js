@@ -76,5 +76,5 @@ nextBtn.addEventListener('click', () => {
     sessionStorage.setItem('user_gender', genderSelect.value);
     // ----------------------------
 
-    window.location.href = '../Check/Check.html';
+    window.location.replace('../Task/Task.html');
 });

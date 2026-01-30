@@ -3,7 +3,7 @@
 // ==========================================
 // 設定: デザイン関連
 // ==========================================
-const BASE_FONT_SIZE = 80; // 基準サイズ
+const BASE_FONT_SIZE = 40; // 基準サイズ
 const SCALE_FACTOR = 2.0;  // 強調倍率
 
 // ==========================================
@@ -222,6 +222,6 @@ showBtn.addEventListener('click', () => {
 
     showBtn.disabled = true;
     setTimeout(() => {
-        window.location.href = '../Bar/Bar.html';
+        window.location.replace('../Bar/Bar.html');
     }, 1000);
 });
