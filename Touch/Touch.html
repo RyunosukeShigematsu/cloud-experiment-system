@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タッチ確認</title>
+    <link rel="stylesheet" href="Touch.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="center-area">
+            <div class="black-box">
+                <svg width="100%" height="100%" viewBox="0 0 300 140" class="shapes-svg">
+                    <circle cx="50" cy="50" r="25" fill="black" />
+                    
+                    <rect x="220" y="80" width="50" height="50" fill="black" />
+                    
+                    <polygon id="targetTriangle" points="150,30 120,90 180,90" fill="black" class="clickable-shape" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="bottom-area">
+            <p class="instruction-text">三角をタッチしてください</p>
+        </div>
+    </div>
+
+    <script src="Touch.js"></script>
+</body>
+</html>

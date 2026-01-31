@@ -4,29 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>実験タスク</title>
+    <title>ジャンプタスク</title>
     <link rel="stylesheet" href="Task.css">
 </head>
 
 <body>
 
     <div class="container">
+        <div class="timer-container">
+            <div class="pie-timer" id="timerPie"></div>
+        </div>
+
         <div class="center-area">
             <div class="black-box">
-                <div id="timeContainer" class="time-display hidden">
-                    <span id="hourText">00</span><span class="colon">:</span><span id="minuteText">00</span>
-                </div>
+                <canvas id="gameCanvas"></canvas>
             </div>
         </div>
 
         <div class="bottom-area">
-
-            <p class="sub-text">ボタンを押してください</p>
-            <p class="instruction-text">時刻が表示されます</p>
-
-            <div class="options-grid">
-                <button id="showBtn" class="round-btn">表示</button>
-            </div>
+            <p class="instruction-text">画面をタッチして障害物を<br>避けてください（30秒間）</p>
         </div>
     </div>
 

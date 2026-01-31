@@ -1,0 +1,135 @@
+/* Questionnaire/Questionnaire.css */
+
+/* --- 共通レイアウト設定 --- */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* ★画面全体のスクロールを禁止 */
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    margin: 0 auto; /* 中央寄せ */
+    
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box; /* パディングを含めて幅計算 */
+    
+    /* 質問が増えてもここだけスクロールできるようにする（念のため） */
+    overflow-y: auto; 
+    
+    /* 余白調整：上を少し詰めて1画面に収まりやすくする */
+    padding-top: 20px; 
+    padding-bottom: 40px;
+}
+
+h2 {
+    color: #333;
+    margin: 0 0 5px 0;
+    text-align: center;
+    font-size: 20px;
+}
+
+.desc {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* 質問ごとの箱 */
+.question-box {
+    background: white;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-sizing: border-box; /* ★横はみ出し防止 */
+    animation: fadeIn 0.3s ease-in;
+}
+
+.q-label {
+    font-weight: bold;
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    line-height: 1.4;
+}
+
+/* --- 【変更】ラジオボタンを「押しやすいボタン」に変える --- */
+.radio-group {
+    display: flex;
+    gap: 10px; /* ボタン同士の間隔 */
+    width: 100%;
+}
+
+/* ラジオボタン本体は隠す */
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+/* ラベルをボタンの見た目にする */
+.radio-group label {
+    flex: 1; /* 横幅いっぱいに均等配置 */
+    padding: 12px;
+    background-color: #eee;
+    color: #555;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+/* 選択された時のスタイル（青くする） */
+.radio-group input[type="radio"]:checked + label {
+    background-color: #007AFF;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 122, 255, 0.3);
+}
+
+/* --- 次へボタン --- */
+.action-btn {
+    margin-top: auto; /* 一番下に配置 */
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #333; /* 完了っぽい色 */
+    border: none;
+    border-radius: 50px; /* 丸みをつける */
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background-color 0.2s;
+    min-height: 54px; /* 指で押しやすい高さ確保 */
+}
+
+.action-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* 表示・非表示切り替え用 */
+.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}

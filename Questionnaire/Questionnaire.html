@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事後アンケート</title>
+    <link rel="stylesheet" href="Questionnaire.css">
+</head>
+<body>
+
+    <div class="container">
+        
+        <h2>事後アンケート</h2>
+        <p class="desc">以下の質問にお答えください。</p>
+
+        <form id="questForm">
+            
+            <div class="question-box">
+                <p id="q1_text" class="q-label">Q1. 表示された〇〇を見ましたか？</p>
+                <div class="radio-group">
+                    <input type="radio" name="q1" id="q1_yes" value="yes">
+                    <label for="q1_yes">はい</label>
+                    
+                    <input type="radio" name="q1" id="q1_no" value="no">
+                    <label for="q1_no">いいえ</label>
+                </div>
+            </div>
+
+            <div id="followUpQuestions" class="hidden">
+
+                <div class="question-box">
+                    <p id="q2_text" class="q-label">Q2. 〇〇の大きさの一部に違いがありましたか？</p>
+                    <div class="radio-group">
+                        <input type="radio" name="q2" id="q2_yes" value="yes">
+                        <label for="q2_yes">はい</label>
+
+                        <input type="radio" name="q2" id="q2_no" value="no">
+                        <label for="q2_no">いいえ</label>
+                    </div>
+                </div>
+                
+                <div class="question-box">
+                    <p class="q-label">Q3. 表示された内容を覚えようとしましたか？</p>
+                    <div class="radio-group">
+                        <input type="radio" name="q3" id="q3_yes" value="yes">
+                        <label for="q3_yes">はい</label>
+
+                        <input type="radio" name="q3" id="q3_no" value="no">
+                        <label for="q3_no">いいえ</label>
+                    </div>
+                </div>
+
+                </div>
+
+            <button type="button" id="nextBtn" class="action-btn" disabled>結果を送信して終了</button>
+        </form>
+
+    </div>
+
+    <script src="Questionnaire.js"></script>
+</body>
+</html>

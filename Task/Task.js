@@ -1,227 +1,261 @@
-/* Task.js */
+/* Task/Task.js */
 
 // ==========================================
-// 設定: デザイン関連
+// ゲーム設定
 // ==========================================
-const BASE_FONT_SIZE = 40; // 基準サイズ
-const SCALE_FACTOR = 2.0;  // 強調倍率
+const GAME_DURATION = 30000; // 30秒 (ms)
+const GRAVITY = 0.6;
+const JUMP_STRENGTH = -10;
+const SPEED = 4.5;             
+const MIN_INTERVAL = 800;  
+const MAX_INTERVAL = 2300; 
 
 // ==========================================
-// ランダム決定ロジック (ページ読み込み時に決定)
+// 変数
 // ==========================================
-// 1. 情報タイプをランダムに決定 ('clock' or 'number')
-const infoTypes = ['clock', 'number'];
-const currentInfoType = infoTypes[Math.floor(Math.random() * infoTypes.length)];
-
-// 2. 強調モードをランダムに決定 (0, 1, 2)
-const currentEmphasis = Math.floor(Math.random() * 3);
-
-// ★重要: Test画面でも使うため、決定したタイプを保存しておく
-sessionStorage.setItem('task_info_type', currentInfoType);
-
-// ログで確認
-console.log(`今回の設定 -> Type: ${currentInfoType}, Emphasis: ${currentEmphasis}`);
-
-// ==========================================
-// 要素の取得
-// ==========================================
-const showBtn = document.getElementById('showBtn');
-const timeContainer = document.getElementById('timeContainer');
-const hourText = document.getElementById('hourText');
-const minuteText = document.getElementById('minuteText');
-const colonText = document.querySelector('.colon');
-const blackBox = document.querySelector('.black-box');
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 const instructionText = document.querySelector('.instruction-text');
 
-// ページ読み込み時の初期設定 (説明文の切り替え)
+// ★修正: タイマー要素 (円グラフ用)
+const timerPie = document.getElementById('timerPie');
+
+let startTime = 0;
+let animationId;
+let nextSpawnTime = 0;
+let collisionFlashTimer = 0;
+
+// ★追加: ミス回数カウンター
+let missCount = 0;
+
+// プレイヤー (恐竜)
+const dino = {
+    x: 50,
+    y: 0, 
+    width: 30,
+    height: 30,
+    dy: 0, 
+    isJumping: false,
+    rotation: 0 // ★追加: 回転角度
+};
+
+let obstacles = [];
+let decorations = [];
+
+// ==========================================
+// 初期化 & 開始
+// ==========================================
 window.addEventListener('DOMContentLoaded', () => {
-    if (currentInfoType === 'number') {
-        instructionText.innerText = "数字が表示されます";
-    } else {
-        instructionText.innerText = "時刻が表示されます";
-    }
+    instructionText.innerHTML = "画面をタップ！<br>ジャンプして避けよう";
+
+    setupCanvas();
+
+    history.pushState(null, null, location.href);
+    window.addEventListener('popstate', () => history.go(1));
+    
+    startTime = Date.now();
+    setNextSpawn();
+    spawnStartFlag();
+
+    update();
+
+    // 30秒後に終了
+    setTimeout(() => {
+        cancelAnimationFrame(animationId);
+        
+        // ★重要: ミス回数を保存してから遷移
+        sessionStorage.setItem('task_miss_count', missCount);
+        
+        window.location.replace('../Test/Test.html');
+    }, GAME_DURATION);
 });
 
-// 0埋め関数
-function padZero(num) {
-    return num.toString().padStart(2, '0');
+function setupCanvas() {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    dino.y = canvas.height - dino.height - 10;
 }
 
-// 重複なしランダム生成クラス
-class RandomBag {
-    constructor(min, max) {
-        this.min = min;
-        this.max = max;
-        this.items = [];
-    }
-    fill() {
-        this.items = [];
-        for (let i = this.min; i <= this.max; i++) {
-            this.items.push(i);
-        }
-        for (let i = this.items.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this.items[i], this.items[j]] = [this.items[j], this.items[i]];
-        }
-    }
-    next() {
-        if (this.items.length === 0) this.fill();
-        return this.items.pop();
-    }
+function setNextSpawn() {
+    const randomInterval = Math.random() * (MAX_INTERVAL - MIN_INTERVAL) + MIN_INTERVAL;
+    nextSpawnTime = Date.now() + randomInterval;
 }
 
-// バッグの用意
-const hourBag = new RandomBag(0, 23);
-const minuteBag = new RandomBag(0, 59);
-const numBagLeft = new RandomBag(0, 99);
-const numBagRight = new RandomBag(0, 99);
-
-
-// ボタンクリック時の動作
-showBtn.addEventListener('click', () => {
-    
-    // 1. 値の決定とコロンの表示切り替え
-    let leftVal, rightVal;
-
-    if (currentInfoType === 'clock') {
-        // --- 時計モード ---
-        leftVal = hourBag.next();
-        rightVal = minuteBag.next();
-        colonText.style.visibility = 'visible'; // 表示
-        
-    } else {
-        // --- 数字モード ---
-        leftVal = numBagLeft.next();
-        rightVal = numBagRight.next();
-        colonText.style.visibility = 'hidden';  // 非表示(スペース維持)
+// ==========================================
+// 入力イベント
+// ==========================================
+function jump(e) {
+    if (e && e.cancelable) e.preventDefault(); 
+    if (!dino.isJumping) {
+        dino.isJumping = true;
+        dino.dy = JUMP_STRENGTH;
     }
-
-    // 値をセット
-    hourText.innerText = padZero(leftVal);
-    minuteText.innerText = padZero(rightVal);
-
-
-    // 2. サイズ計算 (ランダムで決まった currentEmphasis を使用)
-    let leftSize = BASE_FONT_SIZE;
-    let rightSize = BASE_FONT_SIZE;
-
-    if (currentEmphasis === 1) {
-        leftSize = BASE_FONT_SIZE * SCALE_FACTOR;  // 左強調
-        rightSize = BASE_FONT_SIZE;
-    } else if (currentEmphasis === 2) {
-        leftSize = BASE_FONT_SIZE;
-        rightSize = BASE_FONT_SIZE * SCALE_FACTOR; // 右強調
-    }
-    // 0の場合はそのまま
-
-    let colonSize = Math.min(leftSize, rightSize);
-
-    // 3. サイズ適用
-    hourText.style.fontSize = `${leftSize}px`;
-    minuteText.style.fontSize = `${rightSize}px`;
-    colonText.style.fontSize = `${colonSize}px`;
-
-
-    // 4. 表示 ＆ 自動調整
-    timeContainer.classList.remove('hidden');
-
-    const containerWidth = blackBox.clientWidth - 40; 
-    const contentWidth = timeContainer.offsetWidth;
-
-    if (contentWidth > containerWidth) {
-        const ratio = containerWidth / contentWidth;
-        
-        hourText.style.fontSize = `${leftSize * ratio}px`;
-        minuteText.style.fontSize = `${rightSize * ratio}px`;
-        colonText.style.fontSize = `${colonSize * ratio}px`;
-    }
-
-    // ボタン無効化と画面遷移
-    showBtn.disabled = true;
-    setTimeout(() => {
-        window.location.href = '../Bar/Bar.html';
-    }, 1000);
+}
+window.addEventListener('touchstart', jump, { passive: false });
+window.addEventListener('mousedown', jump);
+window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') jump();
 });
 
+// ==========================================
+// ゲームループ
+// ==========================================
+function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-// ボタンクリック時の動作
-showBtn.addEventListener('click', () => {
-    
-    // 1. 値の決定（ここまでは同じ）
-    let leftVal, rightVal;
+// ==========================================
+    // ★修正: 扇形タイマーのアニメーション
+    // ==========================================
+    if (timerPie) {
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, GAME_DURATION - elapsed);
+        
+        // 進捗率 (0.0 -> 1.0 へ増える)
+        // 「時計回りに減らす」＝「時計回りにグレーの部分を増やしていく」
+        const progress = 1 - (remaining / GAME_DURATION);
+        const deg = 360 * progress;
 
-    if (currentInfoType === 'clock') {
-        leftVal = hourBag.next();
-        rightVal = minuteBag.next();
-        colonText.style.visibility = 'visible';
-    } else {
-        leftVal = numBagLeft.next();
-        rightVal = numBagRight.next();
-        colonText.style.visibility = 'hidden';
+        // conic-gradient: グレーが 0度から deg度まで増える = 青が減って見える
+        timerPie.style.background = `conic-gradient(#e0e0e0 ${deg}deg, #007AFF ${deg}deg)`;
     }
 
-    // --- 【重要変更】提示刺激を4つの数字に分解して保存 ---
-    // 例: leftVal=12 -> digit1=1, digit2=2
-    const digit1 = Math.floor(leftVal / 10);
-    const digit2 = leftVal % 10;
-    
-    // 例: rightVal=5 -> digit3=0, digit4=5 (0埋め考慮)
-    const digit3 = Math.floor(rightVal / 10);
-    const digit4 = rightVal % 10;
-
-    // sessionStrageに個別に保存
-    sessionStorage.setItem('shown_digit_1', digit1);
-    sessionStorage.setItem('shown_digit_2', digit2);
-    sessionStorage.setItem('shown_digit_3', digit3);
-    sessionStorage.setItem('shown_digit_4', digit4);
-
-
-    // --- 【重要変更】強調条件を文字列("normal", "left", "right")に変換して保存 ---
-    let emphasisString = "normal";
-    if (currentEmphasis === 1) emphasisString = "left";
-    if (currentEmphasis === 2) emphasisString = "right";
-    
-    sessionStorage.setItem('condition_emphasis', emphasisString);
-    // -----------------------------------------------------------------
-
-    // 画面表示用に0埋め文字列を作る
-    hourText.innerText = padZero(leftVal);
-    minuteText.innerText = padZero(rightVal);
-
-
-    // 2. サイズ計算ロジック（そのまま使用）
-    let leftSize = BASE_FONT_SIZE;
-    let rightSize = BASE_FONT_SIZE;
-
-    if (currentEmphasis === 1) { // 内部計算は数値(0,1,2)のままでOK
-        leftSize = BASE_FONT_SIZE * SCALE_FACTOR;
-        rightSize = BASE_FONT_SIZE;
-    } else if (currentEmphasis === 2) {
-        leftSize = BASE_FONT_SIZE;
-        rightSize = BASE_FONT_SIZE * SCALE_FACTOR;
-    }
-    
-    // ...（以下のサイズ適用・自動調整・画面遷移コードはそのまま）...
-    
-    let colonSize = Math.min(leftSize, rightSize);
-    hourText.style.fontSize = `${leftSize}px`;
-    minuteText.style.fontSize = `${rightSize}px`;
-    colonText.style.fontSize = `${colonSize}px`;
-
-    timeContainer.classList.remove('hidden');
-
-    const containerWidth = blackBox.clientWidth - 40; 
-    const contentWidth = timeContainer.offsetWidth;
-
-    if (contentWidth > containerWidth) {
-        const ratio = containerWidth / contentWidth;
-        hourText.style.fontSize = `${leftSize * ratio}px`;
-        minuteText.style.fontSize = `${rightSize * ratio}px`;
-        colonText.style.fontSize = `${colonSize * ratio}px`;
+    if (collisionFlashTimer > 0) {
+        ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        collisionFlashTimer--;
     }
 
-    showBtn.disabled = true;
-    setTimeout(() => {
-        window.location.replace('../Bar/Bar.html');
-    }, 1000);
-});
+    // 1. 恐竜の動き
+    dino.dy += GRAVITY;
+    dino.y += dino.dy;
+
+    const groundY = canvas.height - dino.height - 10;
+    if (dino.y > groundY) {
+        dino.y = groundY;
+        dino.dy = 0;
+        dino.isJumping = false;
+    }
+
+    // ★追加: 回転角度の更新 (進むスピードに合わせて回転させる)
+    // 回転角度 = 進んだ距離 / 半径
+    dino.rotation += SPEED / (dino.width / 2);
+
+    // 2. 障害物生成
+    if (Date.now() >= nextSpawnTime) {
+        spawnObstacle();
+        setNextSpawn();
+    }
+
+    // 装飾品
+    for (let i = decorations.length - 1; i >= 0; i--) {
+        let deco = decorations[i];
+        deco.x -= SPEED;
+        drawFlag(deco.x, deco.y);
+        if (deco.x + 50 < 0) decorations.splice(i, 1);
+    }
+
+    // 3. 障害物処理
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        let obs = obstacles[i];
+        obs.x -= SPEED; 
+
+        ctx.fillStyle = "#FF5555";
+        ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+
+        // 当たり判定
+        if (
+            dino.x < obs.x + obs.width &&
+            dino.x + dino.width > obs.x &&
+            dino.y < obs.y + obs.height &&
+            dino.y + dino.height > obs.y
+        ) {
+            handleCollision(); 
+            break; 
+        }
+
+        if (obs.x + obs.width < 0) obstacles.splice(i, 1);
+    }
+
+// 4. 描画 (★変更: 回転するボールを描く)
+    
+    // キャンバスの状態を保存
+    ctx.save();
+    
+    const radius = dino.width / 2;
+    const centerX = dino.x + radius;
+    const centerY = dino.y + radius;
+
+    // 回転の中心（ボールの中心）に座標の原点を移動させてから回転
+    ctx.translate(centerX, centerY);
+    ctx.rotate(dino.rotation);
+
+    // ベースの青い円を描く (原点を中心に)
+    ctx.fillStyle = "#007AFF";
+    ctx.beginPath();
+    ctx.arc(0, 0, radius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 回転がわかる模様（白い十字線）を描く
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.8)"; // 少し透明な白
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-radius + 2, 0); ctx.lineTo(radius - 2, 0); // 横線
+    ctx.moveTo(0, -radius + 2); ctx.lineTo(0, radius - 2); // 縦線
+    ctx.stroke();
+    
+    // 中心の白い丸アクセント
+    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath();
+    ctx.arc(0, 0, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // キャンバスの状態を元に戻す (これをしないと他の描画も回転してしまう)
+    ctx.restore();
+
+
+    // 地面
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height - 10);
+    ctx.lineTo(canvas.width, canvas.height - 10);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#999";
+    ctx.stroke();
+
+    animationId = requestAnimationFrame(update);
+}
+
+function spawnObstacle() {
+    obstacles.push({
+        x: canvas.width,
+        y: canvas.height - 30 - 10,
+        width: 20,
+        height: 30
+    });
+}
+
+function spawnStartFlag() {
+    decorations.push({ type: 'flag', x: 200, y: canvas.height - 10 });
+}
+
+function drawFlag(x, y) {
+    ctx.fillStyle = "#666";
+    ctx.fillRect(x, y - 50, 4, 50);
+    ctx.beginPath();
+    ctx.moveTo(x + 4, y - 50);
+    ctx.lineTo(x + 35, y - 35);
+    ctx.lineTo(x + 4, y - 20);
+    ctx.closePath();
+    ctx.fillStyle = "#FF3333";
+    ctx.fill();
+}
+
+// 衝突時の処理
+function handleCollision() {
+    // ★追加: ミス回数をカウントアップ
+    missCount++;
+    
+    obstacles = [];
+    spawnStartFlag();
+    setNextSpawn(); 
+    collisionFlashTimer = 10;
+}

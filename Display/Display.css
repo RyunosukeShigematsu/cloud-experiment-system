@@ -1,0 +1,165 @@
+/* Display.css */
+
+/* --- ここはそのまま --- */
+/* htmlとbodyの両方に設定するのが鉄則です */
+html, body {
+    /* 1. スクロールバーを消して、スクロール自体を禁止 */
+    overflow: hidden;
+    
+    /* 2. スマホ特有の「引っ張ってリロード」や「端っこのバウンス」を禁止 */
+    overscroll-behavior: none;
+
+    /* 3. ピンチイン・ピンチアウト（拡大縮小）を禁止（タップは許可） */
+    touch-action: manipulation;
+
+    /* --- 以下は既存の設定 --- */
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+    height: 100vh; /* 画面の高さぴったりにする */
+    width: 100vw;  /* 画面の幅ぴったりにする */
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+
+    /* ★変更ポイント1: 中央揃えをやめる */
+    justify-content: flex-start; 
+    align-items: center;
+
+    /* ★変更ポイント2: 上から固定の位置に押し下げる */
+    /* これで画面の高さに関わらず、常に同じ位置から始まります */
+    padding-top: 30vh; 
+}
+
+.center-area {
+    width: 100%;
+    flex-grow: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* 箱の下の隙間も固定 */
+    margin-bottom: 60px; 
+    padding-bottom: 0;
+}
+
+.black-box {
+    /* 幅と高さを完全に固定 */
+    width: 80%;
+    height: 140px;
+    
+    background-color: #EEEEEE;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    
+    /* 念のため overflow 設定 */
+    overflow: hidden; 
+}
+
+/* --- 【変更】文字スタイル（サイズはJSで制御するため削除し、配置設定を追加） --- */
+.time-display {
+    display: flex;          /* ★文字を横並びにする */
+    align-items: baseline;  /* ★重要：文字の下のライン(ベースライン)を揃える */
+    justify-content: center;
+    
+    color: #555555;
+    font-weight: bold;
+    letter-spacing: 2px;
+    white-space: nowrap;    /* 改行させない */
+    line-height: 1;         /* 高さのズレを防ぐ */
+}
+
+.colon {
+    margin: 0 10px;
+    position: relative;
+    /* 【変更】 数値を小さくする（マイナスを増やす）と上に上がります */
+    /* -2px から -15px に変更してみました。好きな位置になるよう調整してください */
+    top: -5px; 
+}
+
+.hidden { display: none !important; }
+
+
+/* --- 下のエリア（Checkと同じ高さ・変更なし） --- */
+.bottom-area {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 0;
+}
+
+/* 「ボタンを押してください」の部分 */
+.sub-text {
+    /* 【変更】上と同じ太さと色にしました */
+    font-size: 18px;   /* サイズは少し控えめ（お好みで24pxにしてもOK） */
+    font-weight: bold; /* ★太字にする */
+    color: #333;       /* ★色を濃くする */
+    margin: 0 0 5px 0;
+}
+
+
+/* --- 【修正】メインの指示文 --- */
+.instruction-text {
+    font-size: 20px;   /* 少し大きめに */
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    line-height: 1.5;  /* 改行したときに詰まりすぎないように */
+    margin: 0 0 20px 0;
+}
+
+
+/* 丸ボタン（そのまま） */
+.round-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #007AFF;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+.round-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+}
+.round-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* 数字モードの時は、文字の間隔をなくす */
+.time-display.number-mode {
+    letter-spacing: 0;
+}
+
+/* 数字モードの時は、コロンを「透明」ではなく「完全に消す（幅もなくす）」 */
+.time-display.number-mode .colon {
+    display: none;
+}

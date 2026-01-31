@@ -171,3 +171,15 @@ h2 {
     background-color: #007AFF;
     color: white;
 }
+
+
+/* 1. 数字モードの時は、コロンを「透明」ではなく「完全に消す（幅もなくす）」 */
+.time-input-area.number-mode .colon {
+    display: none;
+}
+
+/* 2. 入力ボックス同士の間隔を詰める（もしあれば） */
+.time-input-area.number-mode .digit-select {
+    margin: 0 1px; /* 少しだけ隙間があった方が「別の枠」だと認識しやすいので1pxだけ残すのがおすすめ */
+    /* 完全にくっつけたい場合は margin: 0; にしてください */
+}

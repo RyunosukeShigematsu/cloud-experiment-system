@@ -1,131 +1,105 @@
-/* Task.css */
+/* Task/Task.css */
 
-/* --- ここはそのまま --- */
-body {
+/* --- 全体レイアウト（他画面と統一） --- */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: manipulation;
     margin: 0;
     padding: 0;
     font-family: sans-serif;
     background-color: #f4f4f4;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
 }
 
 .container {
     width: 100%;
     max-width: 600px;
-    height: 100%;
+    height: 100vh;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     padding: 20px;
     box-sizing: border-box;
+    
+    /* 位置合わせ */
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 30vh; 
 }
 
-/* --- Checkと同じ設定 --- */
+/* ゲーム画面エリア */
 .center-area {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 20%;
-}
-
-/* 黒い長方形 */
-.black-box {
     width: 100%;
-    height: 140px;
-    background-color: #EEEEEE;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    border-radius: 4px;
-    
-    /* 中身を中央配置 */
+    flex-grow: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* 【追加】はみ出し防止用の設定 */
-    padding: 0 20px;       /* 左右に少し余白を持たせる */
-    box-sizing: border-box; /* paddingを含めた幅計算にする */
-    overflow: hidden;      /* 万が一はみ出たら隠す */
+    margin-bottom: 60px;
 }
 
-/* --- 【変更】文字スタイル（サイズはJSで制御するため削除し、配置設定を追加） --- */
-.time-display {
-    display: flex;          /* ★文字を横並びにする */
-    align-items: baseline;  /* ★重要：文字の下のライン(ベースライン)を揃える */
+/* ★変更: 箱の装飾をなくし、ただのラッパーにする */
+.black-box {
+    width: 100%; /* 幅いっぱい */
+    height: auto; /* 高さはCanvas任せ */
+    background: transparent; /* 透明に */
+    box-shadow: none;
+    border-radius: 0;
+    display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+/* ★変更: Canvas自体を地面っぽくする */
+canvas {
+    display: block;
+    width: 100%;
+    height: 200px; /* 高さを指定して広げる */
+    background-color: #EEEEEE; /* 地面の背景色 */
     
-    color: #555555;
-    font-weight: bold;
-    letter-spacing: 2px;
-    white-space: nowrap;    /* 改行させない */
-    line-height: 1;         /* 高さのズレを防ぐ */
+    /* タッチした時に画面が青くなるのを防ぐ */
+    touch-action: none; 
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.colon {
-    margin: 0 10px;
-    position: relative;
-    /* 【変更】 数値を小さくする（マイナスを増やす）と上に上がります */
-    /* -2px から -15px に変更してみました。好きな位置になるよう調整してください */
-    top: -5px; 
-}
-
-.hidden { display: none !important; }
-
-
-/* --- 下のエリア（Checkと同じ高さ・変更なし） --- */
+/* 下の説明文 */
 .bottom-area {
-    height: 180px;
-    flex-shrink: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* 上詰め */
-    padding-top: 10px; /* 少し上を空ける */
 }
 
-/* 「ボタンを押してください」の部分 */
-.sub-text {
-    /* 【変更】上と同じ太さと色にしました */
-    font-size: 18px;   /* サイズは少し控えめ（お好みで24pxにしてもOK） */
-    font-weight: bold; /* ★太字にする */
-    color: #333;       /* ★色を濃くする */
-    margin: 0 0 5px 0;
-}
-
-/* 「時刻が表示されます」の部分 */
 .instruction-text {
-    font-size: 18px;
+    font-size: 24px; /* 少し大きく強調 */
     font-weight: bold;
     color: #333;
+    text-align: center;
+    line-height: 1.5;
     margin: 0 0 20px 0;
 }
 
+/* コンテナ (画面上部中央に配置) */
+.timer-container {
+    position: absolute;
+    top: 60px;          /* ★修正: 20px -> 60px (下に下げました) */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
 
-/* 丸ボタン（そのまま） */
-.round-btn {
-    width: 80px;
-    height: 80px;
+/* 扇形タイマー本体 */
+.pie-timer {
+    width: 100px;       /* ★修正: 60px -> 100px (大きくしました) */
+    height: 100px;      /* ★修正: 60px -> 100px (大きくしました) */
     border-radius: 50%;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background-color: #007AFF;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s;
-}
-.round-btn:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
-}
-.round-btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-    box-shadow: none;
+    
+    /* 初期状態: 全て青色 (JSでこれを動かします) */
+    background: conic-gradient(#e0e0e0 0deg, #007AFF 0deg);
+    
+    /* 影をつけて見やすくする */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border: 3px solid #fff; /* 枠線も少し太くしました */
 }
