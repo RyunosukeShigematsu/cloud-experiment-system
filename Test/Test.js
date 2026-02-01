@@ -11,18 +11,49 @@ let decisionTimes = [null, null, null, null];
 let finishLogs = [];            
 
 window.addEventListener('DOMContentLoaded', () => {
-    startTime = Date.now();
-    history.pushState(null, null, location.href);
-    window.addEventListener('popstate', () => history.go(1));
-    window.onbeforeunload = () => "データが失われますがよろしいですか？";
+    
+    // ==========================================
+    // 1. 連打防止のためのボタンロック
+    // ==========================================
+    finishBtn.disabled = true;
+    setTimeout(() => {
+        finishBtn.disabled = false;
+    }, 2000); // 2秒後に有効化
 
+    // ==========================================
+    // 2. 情報の取得 (数字か時刻か)
+    // ==========================================
     const infoType = sessionStorage.getItem('task_info_type');
+    
+    // ==========================================
+    // 3. ★追加: 見出しテキストの書き換え処理
+    // ==========================================
+    const questionTitle = document.getElementById('questionTitle');
+    
+    // infoTypeが 'number' なら「数字」、それ以外なら「時刻」
+    const targetWord = (infoType === 'number') ? "数字" : "時刻";
+    
+    if (questionTitle) {
+        questionTitle.innerText = `ボタンを押したときに表示されていた${targetWord}はなんでしたか？`;
+    }
+
+    // ==========================================
+    // 4. 入力欄のモード切替 (コロンの表示/非表示)
+    // ==========================================
     const inputArea = document.querySelector('.time-input-area'); 
     if (infoType === 'number') {
         inputArea.classList.add('number-mode');
     } else {
         inputArea.classList.remove('number-mode');
     }
+
+    // ==========================================
+    // 5. その他の初期設定
+    // ==========================================
+    startTime = Date.now();
+    history.pushState(null, null, location.href);
+    window.addEventListener('popstate', () => history.go(1));
+    window.onbeforeunload = () => "データが失われますがよろしいですか？";
 });
 
 selects.forEach((select, index) => {

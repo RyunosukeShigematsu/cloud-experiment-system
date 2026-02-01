@@ -245,7 +245,7 @@ function drawFlag(x, y) {
     ctx.lineTo(x + 35, y - 35);
     ctx.lineTo(x + 4, y - 20);
     ctx.closePath();
-    ctx.fillStyle = "#FF3333";
+    ctx.fillStyle = "#FFC107";
     ctx.fill();
 }
 

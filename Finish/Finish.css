@@ -1,12 +1,36 @@
-body {
+html, body {
     font-family: sans-serif;
+    
+    /* 真ん中に寄せる設定 */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    
+    /* 画面いっぱいにする */
+    height: 100vh; /* min-height ではなく height にします */
+    width: 100vw;  /* ★追加: 幅を明示 */
     margin: 0;
+    
     background-color: #ecf0f1;
     color: #333;
+    
+    /* --- ★ここからが重要！スワイプ戻る・バウンス防止 --- */
+    
+    /* 1. 横スワイプによる「戻る/進む」を禁止 */
+    overscroll-behavior-x: none; 
+    overscroll-behavior-y: none;
+    
+    /* 2. 画面自体を固定 */
+    position: fixed; 
+    
+    /* ★修正: これがないと左上に寄ってしまいます！ */
+    top: 0;
+    left: 0;
+    
+    overflow: hidden; 
+    
+    /* 3. ピンチズーム等の無効化 */
+    touch-action: none;
 }
 
 .container {

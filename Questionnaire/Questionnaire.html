@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,10 +10,19 @@
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         /* 7段階評価のスタイル */
         .scale-group {
             display: flex;
@@ -20,11 +30,13 @@
             max-width: 400px;
             margin: 10px auto;
         }
+
         .scale-item {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .scale-labels {
             display: flex;
             justify-content: space-between;
@@ -34,22 +46,23 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
-        
+
         <h2>事後アンケート</h2>
         <p class="desc">以下の質問にお答えください。</p>
 
         <form id="questForm">
-            
+
             <div id="step1_area" class="fade-in">
                 <div class="question-box">
                     <p id="q1_text" class="q-label">Q1. 表示された〇〇を見ましたか？</p>
                     <div class="radio-group">
                         <input type="radio" name="q1" id="q1_yes" value="yes">
                         <label for="q1_yes">はい</label>
-                        
+
                         <input type="radio" name="q1" id="q1_no" value="no">
                         <label for="q1_no">いいえ</label>
                     </div>
@@ -57,7 +70,7 @@
             </div>
 
             <div id="step2_area" class="hidden fade-in">
-                
+
                 <div class="question-box">
                     <p id="q2_text" class="q-label">Q2. 〇〇の大きさの一部に違いがありましたか？</p>
                     <div class="radio-group">
@@ -71,7 +84,7 @@
                         <label for="q2_unknown">わからない</label>
                     </div>
                 </div>
-                
+
                 <div class="question-box">
                     <p class="q-label">Q3. 表示された内容を覚えようとしましたか？</p>
                     <div class="radio-group">
@@ -87,16 +100,23 @@
 
             <div id="common_area" class="hidden fade-in">
                 <div class="question-box">
-                    <p class="q-label">Q4. 先ほど回答した数値(時間)について、どれくらい自信がありますか？</p>
-                    
+                    <p id="q4_text" class="q-label">Q4. 先ほど回答した時刻について、どれくらい自信がありますか？</p>
+
                     <div class="scale-group">
-                        <div class="scale-item"><input type="radio" name="confidence" value="1" id="c1"><label for="c1">1</label></div>
-                        <div class="scale-item"><input type="radio" name="confidence" value="2" id="c2"><label for="c2">2</label></div>
-                        <div class="scale-item"><input type="radio" name="confidence" value="3" id="c3"><label for="c3">3</label></div>
-                        <div class="scale-item"><input type="radio" name="confidence" value="4" id="c4"><label for="c4">4</label></div>
-                        <div class="scale-item"><input type="radio" name="confidence" value="5" id="c5"><label for="c5">5</label></div>
-                        <div class="scale-item"><input type="radio" name="confidence" value="6" id="c6"><label for="c6">6</label></div>
-                        <div class="scale-item"><input type="radio" name="confidence" value="7" id="c7"><label for="c7">7</label></div>
+                        <div class="scale-item"><input type="radio" name="confidence" value="1" id="c1"><label
+                                for="c1">1</label></div>
+                        <div class="scale-item"><input type="radio" name="confidence" value="2" id="c2"><label
+                                for="c2">2</label></div>
+                        <div class="scale-item"><input type="radio" name="confidence" value="3" id="c3"><label
+                                for="c3">3</label></div>
+                        <div class="scale-item"><input type="radio" name="confidence" value="4" id="c4"><label
+                                for="c4">4</label></div>
+                        <div class="scale-item"><input type="radio" name="confidence" value="5" id="c5"><label
+                                for="c5">5</label></div>
+                        <div class="scale-item"><input type="radio" name="confidence" value="6" id="c6"><label
+                                for="c6">6</label></div>
+                        <div class="scale-item"><input type="radio" name="confidence" value="7" id="c7"><label
+                                for="c7">7</label></div>
                     </div>
                     <div class="scale-labels">
                         <span>全く自信がない</span>
@@ -112,4 +132,5 @@
 
     <script src="Questionnaire.js"></script>
 </body>
+
 </html>

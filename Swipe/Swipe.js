@@ -8,7 +8,19 @@ let startX = 0;
 let startTime = 0; // ★計測用
 
 // 初期化
-window.addEventListener('DOMContentLoaded', () => { // DOMContentLoadedで計測開始
+window.addEventListener('DOMContentLoaded', () => { 
+    
+    // ============================================================
+    // ★追加: スマホの「戻るスワイプ」を無効化する処理
+    // ============================================================
+    document.addEventListener('touchmove', (e) => {
+        // これを書いても、下の onDrag 関数はちゃんと動きます！
+        // 「画面全体のスクロール」や「ブラウザの戻る」だけが止まります。
+        e.preventDefault();
+    }, { passive: false });
+    // ============================================================
+
+    // 履歴操作（念のため）
     history.pushState(null, null, location.href);
     window.addEventListener('popstate', () => history.go(1));
     window.onbeforeunload = () => "データが失われますがよろしいですか？";

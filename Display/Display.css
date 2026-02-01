@@ -3,15 +3,6 @@
 /* --- ここはそのまま --- */
 /* htmlとbodyの両方に設定するのが鉄則です */
 html, body {
-    /* 1. スクロールバーを消して、スクロール自体を禁止 */
-    overflow: hidden;
-    
-    /* 2. スマホ特有の「引っ張ってリロード」や「端っこのバウンス」を禁止 */
-    overscroll-behavior: none;
-
-    /* 3. ピンチイン・ピンチアウト（拡大縮小）を禁止（タップは許可） */
-    touch-action: manipulation;
-
     /* --- 以下は既存の設定 --- */
     margin: 0;
     padding: 0;
@@ -21,6 +12,19 @@ html, body {
     width: 100vw;  /* 画面の幅ぴったりにする */
     display: flex;
     justify-content: center;
+    /* --- ★ここからが重要！スワイプ戻る・バウンス防止 --- */
+    
+    /* 1. 横スワイプによる「戻る/進む」をブラウザに禁止させる最強の呪文 */
+    overscroll-behavior-x: none; 
+    overscroll-behavior-y: none; /* 縦のバウンスも防止 */
+    
+    /* 2. 画面自体を固定して、余計なスクロールを許さない */
+    position: fixed; 
+    overflow: hidden; 
+    
+    /* 3. ピンチズームや余計なタッチ操作を無効化 */
+    /* 注意: アンケート画面でスクロールが必要な場合はここを変える必要があります（後述） */
+    touch-action: none;
 }
 
 .container {

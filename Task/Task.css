@@ -11,6 +11,19 @@ html, body {
     padding: 0;
     font-family: sans-serif;
     background-color: #f4f4f4;
+    /* --- ★ここからが重要！スワイプ戻る・バウンス防止 --- */
+    
+    /* 1. 横スワイプによる「戻る/進む」をブラウザに禁止させる最強の呪文 */
+    overscroll-behavior-x: none; 
+    overscroll-behavior-y: none; /* 縦のバウンスも防止 */
+    
+    /* 2. 画面自体を固定して、余計なスクロールを許さない */
+    position: fixed; 
+    overflow: hidden; 
+    
+    /* 3. ピンチズームや余計なタッチ操作を無効化 */
+    /* 注意: アンケート画面でスクロールが必要な場合はここを変える必要があります（後述） */
+    touch-action: none;
 }
 
 .container {

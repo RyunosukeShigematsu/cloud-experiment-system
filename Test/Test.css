@@ -1,12 +1,44 @@
 /* 既存のスタイル */
-body {
+html, body {
+    /* --- ★ここからが重要！スワイプ戻る・バウンス防止 --- */
+    
+    /* 1. 横スワイプによる「戻る/進む」をブラウザに禁止させる最強の呪文 */
+    overscroll-behavior-x: none; 
+    overscroll-behavior-y: none; /* 縦のバウンスも防止 */
+    
+    /* 2. 画面自体を固定して、余計なスクロールを許さない */
+    position: fixed; 
+    
+    /* ★修正: 固定する位置を明示的に指定しないとズレます！ */
+    top: 0;
+    left: 0;
+    
+    overflow: hidden; 
+    
+    /* 3. ピンチズームや余計なタッチ操作を無効化 */
+    touch-action: none;
+    
+    /* --- レイアウト設定 --- */
     font-family: sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100vw; /* 幅も100%指定 */
     margin: 0;
+    padding: 0; /* 余計な隙間を消す */
     background-color: #f4f7f6;
+
+    /* =================================================== */
+    /* ★修正: 全体を少し上に持ち上げる設定 */
+    /* =================================================== */
+    
+    /* 1. パディングを高さ(100vh)の内側に含める設定（これをしないとあふれます） */
+    box-sizing: border-box;
+
+    /* 2. 下に見えないクッションを入れて、中心を上に押し上げる */
+    /* 10vh 〜 20vh の間で調整してください。数字が大きいほど上に上がります */
+    padding-bottom: 15vh;
 }
 
 .container {
@@ -22,6 +54,8 @@ body {
 h2 {
     color: #333;
     margin-bottom: 10px; /* 少し詰める */
+    /* ★追加: フォントサイズを少し小さくする (お好みで 18px 〜 22px くらい) */
+    font-size: 20px;
 }
 
 /* 【追加】指示文のスタイル */
