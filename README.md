@@ -1,4 +1,4 @@
-# cloud-experiment-system
+# crowdsourcing-experiment-system
 
 大学修士課程（M1）の研究で使用したクラウドソーシング実験システムです。  
 被験者は Web ブラウザ上で課題を実施し，操作ログや回答結果は

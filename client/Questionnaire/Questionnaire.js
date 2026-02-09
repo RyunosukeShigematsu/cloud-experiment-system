@@ -144,7 +144,7 @@ nextBtn.addEventListener('click', async () => {
 
     // 4. 送信
     try {
-        const response = await fetch('https://shigematsu.nkmr.io/m1_cloud/database.php', {
+        const response = await fetch('https://shigematsu.nkmr.io/crowdsourcing-experiment-system/database.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(finalData)
